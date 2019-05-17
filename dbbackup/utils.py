@@ -425,4 +425,4 @@ def filename_generate(extension, database_name='', servername=None, content_type
 
 
 def get_escaped_command_arg(arg):
-    return arg.replace("'", "'\"'\"'") if os.name == 'nt' else quote(arg)
+    return arg if os.name == 'nt' else quote(arg)
