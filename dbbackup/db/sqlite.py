@@ -3,7 +3,7 @@ import warnings
 from tempfile import SpooledTemporaryFile
 from shutil import copyfileobj
 from django.db import IntegrityError, OperationalError
-from django.utils.six import BytesIO
+from six import BytesIO
 from .base import BaseDBConnector
 
 
@@ -32,6 +32,7 @@ class SqliteConnector(BaseDBConnector):
             if table_name.startswith('sqlite_') or table_name in self.exclude:
                 continue
             elif sql.startswith('CREATE TABLE'):
+                sql = sql.replace('CREATE TABLE', 'CREATE TABLE IF NOT EXISTS')
                 # Make SQL commands in 1 line
                 sql = sql.replace('\n    ', '')
                 sql = sql.replace('\n)', ')')
